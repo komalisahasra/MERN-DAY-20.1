@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #e3f2f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #455a64;
+    }
+
+    #timer {
+      font-size: 40px;
+      margin-bottom: 30px;
+      color: #212121;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #start {
+      background-color: #81c784;
+      color: #fff;
+    }
+
+    #stop {
+      background-color: #e53935;
+      color: #fff;
+    }
+
+    #reset {
+      background-color: #aed581;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>TIMER</h1>
+  <div id="timer">25 : 00</div>
+
+  <div class="buttons">
+    <button id="start">START</button>
+    <button id="stop">STOP</button>
+    <button id="reset">RESET</button>
+  </div>
+
+  <script>
+    let timerDisplay = document.getElementById("timer");
+    let startBtn = document.getElementById("start");
+    let stopBtn = document.getElementById("stop");
+    let resetBtn = document.getElementById("reset");
+
+    let timeLeft = 25 * 60; // 25 minutes in seconds
+    let timer = null;
+
+    function updateDisplay() {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      timerDisplay.textContent = `${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (timer !== null) return; // prevent multiple intervals
+      timer = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timer = null;
+          alert("Time's up!");
+        } else {
+          timeLeft--;
+          updateDisplay();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timeLeft = 25 * 60;
+      updateDisplay();
+    }
+
+    startBtn.addEventListener("click", startTimer);
+    stopBtn.addEventListener("click", stopTimer);
+    resetBtn.addEventListener("click", resetTimer);
+
+    updateDisplay(); // initial display
+  </script>
+
+</body>
+</html>
